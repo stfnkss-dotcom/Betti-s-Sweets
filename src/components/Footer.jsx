@@ -21,6 +21,7 @@ const Footer = () => (
           <a className="inline-flex items-center gap-2" href="https://wa.me/447761297615" target="_blank" rel="noopener noreferrer"><MessageCircle className="w-5 h-5" />WhatsApp</a>
           <a className="inline-flex items-center gap-2" href="tel:+447761297615"><Phone className="w-5 h-5" />+44 7761 297615</a>
           <a className="inline-flex items-center gap-2 break-all" href="mailto:hello@bettissweets.co.uk"><Mail className="w-5 h-5 shrink-0" />hello@bettissweets.co.uk</a>
+          <a className="inline-flex items-center gap-2 break-all" href="mailto:cakes@bettissweets.co.uk"><Mail className="w-5 h-5 shrink-0" />cakes@bettissweets.co.uk</a>
         </div>
       </div>
     </div>

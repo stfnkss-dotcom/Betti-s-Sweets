@@ -1,190 +1,37 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Menu, X } from 'lucide-react';
 
+const links = [
+  { href: '#home', label: 'Home' },
+  { href: '#about', label: 'About' },
+  { href: '#work', label: 'Our cakes' },
+  { href: '#faq', label: 'FAQ' },
+  { href: '#contact', label: 'Contact' }
+];
+
 const Header = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [headerTop, setHeaderTop] = useState(0);
-
-  useEffect(() => {
-    const updateHeaderTop = () => {
-      const bannerHeight = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--banner-h')) || 0;
-      setHeaderTop(bannerHeight);
-    };
-
-    updateHeaderTop();
-    window.addEventListener('resize', updateHeaderTop);
-    // Also listen for changes in the banner itself, as its height might change dynamically
-    const observer = new MutationObserver(updateHeaderTop);
-    const banner = document.querySelector('.temp-banner');
-    if (banner) {
-      observer.observe(banner, { attributes: true, childList: true, subtree: true });
-    }
-
-    return () => {
-      window.removeEventListener('resize', updateHeaderTop);
-      observer.disconnect();
-    };
-  }, []);
-
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
-
-  const closeMenu = () => {
-    setIsMenuOpen(false);
-  };
-
+  const [open, setOpen] = useState(false);
   return (
-    <header 
-      className="sticky z-50 header-glare bg-[rgba(255,248,240,0.85)] backdrop-blur-glass border-b border-[#f1e7db]"
-      style={{ top: `${headerTop}px` }}
-    >
-      <div className="max-w-[1200px] mx-auto px-5 flex items-center justify-between h-16 lg:h-18">
-        {/* Brand */}
-        <div className="flex items-center gap-2.5 mr-auto">
-          <div 
-            className="h-[70px] lg:h-[80px] aspect-[120/36] overflow-visible"
-            aria-hidden="true"
-          >
-            <img 
-              src="logo.svg" 
-              alt="Betti's Sweets logo" 
-              width="256" 
-              height="77"
-              className="h-full w-auto object-contain object-center transform-gpu"
-              style={{
-                transformOrigin: 'center center',
-                transform: 'scale(1.4)'
-              }}
-              onError={(e) => {
-                e.target.onerror = null;
-                e.target.src = 'logo.png';
-              }}
-            />
-          </div>
-          <div className="hidden wordmark" aria-hidden="true">
-            Betti's Sweets
-          </div>
-        </div>
-
-        {/* Desktop Navigation */}
+    <header className="sticky top-0 z-50 header-glare bg-[rgba(255,248,240,0.95)] backdrop-blur-glass border-b border-[#f1e7db]">
+      <div className="max-w-[1200px] mx-auto px-5 flex items-center justify-between min-h-20">
+        <a href="#home" aria-label="Betti's Sweets home" className="flex items-center">
+          <img src="/logo.svg" alt="Betti's Sweets" className="h-[76px] w-auto object-contain" />
+        </a>
         <nav className="hidden lg:block" aria-label="Primary">
-          <ul className="flex gap-[18px] list-none p-0 m-0">
-            <li>
-              <a 
-                href="#home" 
-                className="block py-2 px-2.5 rounded-[10px] hover:bg-white hover:border hover:border-[#f0e6da] transition-colors"
-              >
-                Home
-              </a>
-            </li>
-            <li>
-              <a 
-                href="#gallery" 
-                className="block py-2 px-2.5 rounded-[10px] hover:bg-white hover:border hover:border-[#f0e6da] transition-colors"
-              >
-                Gallery
-              </a>
-            </li>
-            <li>
-              <a 
-                href="#estimator" 
-                className="block py-2 px-2.5 rounded-[10px] hover:bg-white hover:border hover:border-[#f0e6da] transition-colors"
-              >
-                Design Your Cake
-              </a>
-            </li>
-            <li>
-              <a 
-                href="#testimonials" 
-                className="block py-2 px-2.5 rounded-[10px] hover:bg-white hover:border hover:border-[#f0e6da] transition-colors"
-              >
-                Reviews
-              </a>
-            </li>
-
-            <li>
-              <a 
-                href="#contact" 
-                className="block py-2 px-2.5 rounded-[10px] hover:bg-white hover:border hover:border-[#f0e6da] transition-colors"
-              >
-                Contact
-              </a>
-            </li>
+          <ul className="flex gap-4 list-none p-0 m-0">
+            {links.map(link => <li key={link.href}><a className="block py-2 px-2.5 rounded-[10px] hover:bg-white" href={link.href}>{link.label}</a></li>)}
           </ul>
         </nav>
-
-        {/* Mobile Menu Button */}
-        <button
-          className="lg:hidden border-0 bg-transparent p-2.5 leading-none text-[var(--rose)] ml-4"
-          aria-label="Open menu"
-          aria-controls="primary-menu"
-          aria-expanded={isMenuOpen}
-          onClick={toggleMenu}
-        >
-          {isMenuOpen ? (
-            <X className="w-7 h-7 stroke-[1.8]" />
-          ) : (
-            <Menu className="w-7 h-7 stroke-[1.8]" />
-          )}
+        <button className="lg:hidden bg-transparent p-3 text-[var(--rose)]" aria-label={open ? 'Close menu' : 'Open menu'} aria-expanded={open} aria-controls="primary-menu" onClick={() => setOpen(!open)}>
+          {open ? <X /> : <Menu />}
         </button>
       </div>
-
-      {/* Mobile Navigation */}
-      {isMenuOpen && (
-        <nav className="lg:hidden bg-[#fff8f0] border-b border-[#f1e7db] p-3.5" aria-label="Primary">
-          <ul id="primary-menu" className="grid gap-2 list-none p-0 m-0 max-h-[70vh] overflow-auto">
-            <li>
-              <a 
-                href="#home" 
-                className="block py-2 px-2.5 rounded-[10px] hover:bg-white hover:border hover:border-[#f0e6da] transition-colors"
-                onClick={closeMenu}
-              >
-                Home
-              </a>
-            </li>
-            <li>
-              <a 
-                href="#gallery" 
-                className="block py-2 px-2.5 rounded-[10px] hover:bg-white hover:border hover:border-[#f0e6da] transition-colors"
-                onClick={closeMenu}
-              >
-                Gallery
-              </a>
-            </li>
-            <li>
-              <a 
-                href="#estimator" 
-                className="block py-2 px-2.5 rounded-[10px] hover:bg-white hover:border hover:border-[#f0e6da] transition-colors"
-                onClick={closeMenu}
-              >
-                Design Your Cake
-              </a>
-            </li>
-            <li>
-              <a 
-                href="#testimonials" 
-                className="block py-2 px-2.5 rounded-[10px] hover:bg-white hover:border hover:border-[#f0e6da] transition-colors"
-                onClick={closeMenu}
-              >
-                Reviews
-              </a>
-            </li>
-
-            <li>
-              <a 
-                href="#contact" 
-                className="block py-2 px-2.5 rounded-[10px] hover:bg-white hover:border hover:border-[#f0e6da] transition-colors"
-                onClick={closeMenu}
-              >
-                Contact
-              </a>
-            </li>
-          </ul>
-        </nav>
-      )}
+      {open && <nav className="lg:hidden bg-[#fff8f0] px-5 pb-4 border-b border-[#f1e7db]" aria-label="Mobile primary">
+        <ul id="primary-menu" className="grid gap-1 list-none p-0 m-0">
+          {links.map(link => <li key={link.href}><a href={link.href} className="block p-3 rounded-lg hover:bg-white" onClick={() => setOpen(false)}>{link.label}</a></li>)}
+        </ul>
+      </nav>}
     </header>
   );
 };
-
 export default Header;

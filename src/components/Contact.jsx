@@ -3,7 +3,8 @@ import { Phone, MessageCircle, Mail, Instagram } from 'lucide-react';
 const contacts = [
   { label: 'WhatsApp', href: 'https://wa.me/447761297615', icon: MessageCircle, external: true },
   { label: 'Call', href: 'tel:+447761297615', icon: Phone },
-  { label: 'Email', href: 'mailto:hello@bettissweets.co.uk', icon: Mail },
+  { label: 'General enquiries', href: 'mailto:hello@bettissweets.co.uk', icon: Mail },
+  { label: 'Cake enquiries', href: 'mailto:cakes@bettissweets.co.uk', icon: Mail },
   { label: 'Instagram', href: 'https://www.instagram.com/betti_sweets/', icon: Instagram, external: true }
 ];
 

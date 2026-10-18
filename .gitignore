@@ -1,0 +1,14 @@
+# Installed dependencies and production build output
+node_modules/
+dist/
+
+# Local development, logs and secrets
+.env
+.env.*
+!.env.example
+*.log
+npm-debug.log*
+.pnpm-store/
+.vite/
+.DS_Store
+Thumbs.db

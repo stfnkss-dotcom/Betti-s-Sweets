@@ -1,0 +1,29 @@
+name: Website build and security audit
+
+on:
+  push:
+    branches:
+      - main
+      - maintenance-security-2026-10
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - name: Install exact locked dependencies
+        run: npm ci --no-fund
+      - name: Build static website
+        run: npm run build
+      - name: Audit all installed dependencies
+        run: npm audit --audit-level=low
